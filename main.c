@@ -2,14 +2,32 @@
 #include <stdlib.h>
 #include <string.h>
 
-void lihat(void) {}
+void lihat(void) {
+    FILE *fptr = fopen("./data.txt", "r");
+    char *isi_file = malloc(256);
+
+    int hitung = 0;
+    if (fptr == NULL) {
+	fprintf(stderr, "Gagal membuka berkas data.txt :(\n");
+	return;
+    }
+
+    while(fgets(isi_file, 256, fptr) != NULL) {
+	if(strcmp(isi_file, "====\n") == 0) {
+	    printf("\n");
+	    hitung++;
+	} else {
+	    printf("%d %s", hitung, isi_file);
+    }
+    }
+    fclose(fptr);
+}
 void tambah(void) {
 
     char *isi_data;
     char *kombinasi_isi_data;
     
     FILE *fptr;
-    
     isi_data = malloc(256);
     kombinasi_isi_data = malloc(256);
     
@@ -62,7 +80,8 @@ void tambah(void) {
     free(kombinasi_isi_data);
   }
 
-void hapus(void) {}
+  void hapus(void) {}
+  
 void create_file(void) {
     FILE *fptr;
     fptr = fopen("./data.txt", "a");
@@ -89,6 +108,7 @@ main() {
     
     switch (menu) {
 	case 1:
+	     printf("\x1b[H\x1b[J");
 	    lihat();
 	    break;
     case 2:
